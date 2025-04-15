@@ -5,19 +5,46 @@
 //})
 //server.listen(3333)
 
+
 import { fastify } from 'fastify'
+import {database_memory} from "./database_memory.js"
 
 const server = fastify()
 
-server.get('/', ()=>{
-    return 'Hello World'
+const database = new database_memory()
+
+
+//POST para criar
+//GET para buscar
+//DELETE para deletar
+//PUT para alteração
+//PATCH mudar pequenas coisas
+
+
+server.post('/videos', (request, reply)=>{
+    const {tittle, description, duration} = request.body
+
+
+    database.create({
+        tittle,
+        description,
+        duration,
+    })
+
+
+    return reply.status(201).send()
 })
 
-server.get('/1', ()=>{
-    return 'faz'
+server.get('/videos', ()=>{
+    const videos = database.list()
+    return videos
 })
 
-server.get('/2', ()=>{
+server.put('/videos/:id', ()=>{
+    return 'o L'
+})
+
+server.delete('/videos/:id', ()=>{
     return 'o L'
 })
 
